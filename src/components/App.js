@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../style/style.css';
 import Input from './Input.js';
 import UnitRow from './UnitRow.js';
@@ -6,22 +6,45 @@ import UnitRow from './UnitRow.js';
 const units = require('../units.json');
 
 function App() {
-  return (
-    <div id="content">
-      <div id="center">
-        <Input />
+    const [filter, setFilter] = useState('');
 
-        <div class="table-wrapper">
-          <div class="table">
-            <UnitRow unit={units[0]}/>
-            <UnitRow unit={units[10]}/>
-            <UnitRow unit={units[1]}/>
-            <UnitRow unit={units[3]}/>
-          </div>
+    var doFilter = function (text) {
+        setFilter(text.toLowerCase());
+
+    };
+
+    const unit_matches = function (unit) {
+        if (filter.length === 0) {
+            return true;
+        }
+        return unit['key'].toLowerCase().indexOf(filter) >= 0
+            || (typeof (unit['description']) !== 'undefined' && unit['description'].toLowerCase().indexOf(filter) >= 0)
+            || (unit['unique_civilization'] != null && unit['unique_civilization'].toLowerCase().indexOf(filter) >= 0)
+            || (unit['building'].toLowerCase().indexOf(filter) >= 0);
+    };
+
+    return (
+        <div id="content">
+            <div id="center">
+                <div className={"title"}><span className="dark">AoE 2 </span><span className="light"> Units</span>
+                </div>
+                <Input callback={doFilter}/>
+
+                <div className="table-wrapper">
+                    <div className="table">
+                        {units.map((value, index) => {
+                            if (unit_matches(value)) {
+                                return <UnitRow unit={value}/>
+                            } else {
+                                return null;
+                            }
+                        })
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default App;
