@@ -12,7 +12,7 @@ function Input(props) {
     return (
         <div id="input">
             <label>
-                <input onKeyDown={handleChange} onKeyUp={handleChange}/>
+                <input className={'text-2xl'} onKeyDown={handleChange} onKeyUp={handleChange}  placeholder="search"/>
             </label>
         </div>
 

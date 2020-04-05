@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import '../style/style.css';
 import Input from './Input.js';
 import UnitRow from './UnitRow.js';
@@ -25,22 +25,15 @@ function App() {
 
     return (
         <div id="content">
-            <div id="center">
-                <div className={"title"}><span className="dark">AoE 2 </span><span className="light"> Units</span>
+            <div id="center" className={'container mx-auto w-full p-4 md:w-9/12'}>
+                <div className={"container text-center text-4xl flex-row font-sans"}><span className="text-gray-light font-bold">AoE 2 </span><span className="text-gray-dark font-medium"> Units</span>
                 </div>
-                <Input callback={doFilter}/>
+                <Input callback={doFilter} />
 
-                <div className="table-wrapper">
-                    <div className="table">
-                        {units.map((value, index) => {
-                            if (unit_matches(value)) {
-                                return <UnitRow unit={value}/>
-                            } else {
-                                return null;
-                            }
-                        })
-                        }
-                    </div>
+                <div className="rounded-md mx-auto bg-gray-800 container mt-4 table mb-16">
+                    {units.map((value, index) => {
+                        return <UnitRow unit={value} visible={unit_matches(value)} />
+                    })}
                 </div>
             </div>
         </div>
